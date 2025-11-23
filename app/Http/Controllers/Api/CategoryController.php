@@ -64,13 +64,12 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        try {
-            $category = Category::findOrFail($id);
+        $category = Category::findOrFail($id);
             
             $validated = $request->validate([
                 'name' => 'required|string|max:50'
             ]);
-    
+        try {  
             $category->update($validated);
     
             return response()->json([
@@ -92,7 +91,6 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         try {
-            // Pakai findOrFail($id) agar konsisten
             $category = Category::findOrFail($id);
             $category->delete();
             

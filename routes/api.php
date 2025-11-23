@@ -10,7 +10,9 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::apiResource('members', MemberController::class);
+Route::middleware(['check.api.key'])->group(function () {
+    Route::apiResource('members', MemberController::class);
 Route::apiResource('categories', CategoryController::class);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::apiResource('inventory', InventoryController::class);
+});

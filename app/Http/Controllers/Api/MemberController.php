@@ -40,7 +40,9 @@ class MemberController extends Controller
         $validated = $request->validate([
             'name'       => 'required|string|max:50',
             'position'   => 'required|string|max:50',
-            'department' => 'required|string|max:50'
+            'department' => 'required|string|max:50',
+            'phone'      => 'string|max:50',
+            'address'    => 'text'
         ]);
 
         try {
@@ -62,15 +64,16 @@ class MemberController extends Controller
 
     public function update(Request $request, $id)
     {
-        try {
-            $member = Member::findOrFail($id);
+        $member = Member::findOrFail($id);
 
             $validated = $request->validate([
-                'name'       => 'required|string|max:50',
-                'position'   => 'required|string|max:50',
-                'department' => 'required|string|max:50'
-            ]);
-    
+            'name'       => 'required|string|max:50',
+            'position'   => 'required|string|max:50',
+            'department' => 'required|string|max:50',
+            'phone'      => 'string|max:50',
+            'address'    => 'text'
+        ]);
+        try {
             $member->update($validated);
     
             return response()->json([
