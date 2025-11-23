@@ -61,16 +61,13 @@
 
         <!-- Main Content -->
         <main class="flex-1 overflow-y-auto bg-gray-50">
-            <!-- Header Mobile (Opsional, agar tidak kosong di HP) -->
             <header
                 class="bg-white shadow-sm h-16 flex items-center px-6 md:hidden"
             >
                 <h1 class="text-lg font-bold text-gray-800">Inventory</h1>
             </header>
 
-            <!-- Konten Halaman (Router View) -->
             <div class="p-8">
-                <!-- Transisi Halus saat pindah halaman -->
                 <router-view v-slot="{ Component }">
                     <transition name="fade" mode="out-in">
                         <component :is="Component" />
@@ -82,7 +79,6 @@
 </template>
 
 <style>
-/* Efek transisi sederhana */
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.2s ease;
@@ -95,5 +91,4 @@
 </style>
 
 <script setup>
-// Script setup kosong tidak masalah jika hanya layout
 </script>
