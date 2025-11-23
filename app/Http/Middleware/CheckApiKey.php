@@ -15,10 +15,10 @@ class CheckApiKey
      */
     public function handle(Request $request, Closure $next): Response
     {
-         $apiKey = $request->header('x-api-key');
+         $token = $request->bearerToken();
 
-        if ($apiKey !== '12cdf608-c2e9-43bf-a045-00911067f9f6') {
-            return response()->json(['message' => 'Unauthorized API Key'], 401);
+        if ($token !== '12cdf608-c2e9-43bf-a045-00911067f9f6') {
+            return response()->json(['message' => 'Unauthorized Bearer Token'], 401);
         }
 
         return $next($request);
