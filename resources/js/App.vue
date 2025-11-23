@@ -6,7 +6,7 @@
             <div
                 class="h-16 flex items-center justify-center border-b border-gray-200"
             >
-                <h1 class="text-xl font-bold text-black-600 tracking-wide">
+                <h1 class="ml-5 text-xl font-bold text-black-600 tracking-wide">
                     management inventaris.
                 </h1>
             </div>

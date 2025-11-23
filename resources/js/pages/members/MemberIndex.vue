@@ -120,46 +120,82 @@
                 </p>
 
                 <form @submit.prevent="saveMember">
-                    <div class="mb-4">
-                        <label
-                            class="block text-sm font-medium text-gray-700 mb-1"
-                            >Full Name</label
-                        >
-                        <input
-                            v-model="form.name"
-                            type="text"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                            required
-                        />
+                    <!-- Row 1: Name & Position -->
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700 mb-1"
+                                >Full Name
+                                <span class="text-red-500">*</span></label
+                            >
+                            <input
+                                v-model="form.name"
+                                type="text"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700 mb-1"
+                                >Position
+                                <span class="text-red-500">*</span></label
+                            >
+                            <input
+                                v-model="form.position"
+                                type="text"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                required
+                            />
+                        </div>
                     </div>
+
+                    <!-- Row 2: Department & Phone -->
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700 mb-1"
+                                >Department
+                                <span class="text-red-500">*</span></label
+                            >
+                            <input
+                                v-model="form.department"
+                                type="text"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700 mb-1"
+                                >Phone Number</label
+                            >
+                            <input
+                                v-model="form.phone"
+                                type="text"
+                                placeholder="Optional"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Address (Textarea) -->
                     <div class="mb-6">
                         <label
                             class="block text-sm font-medium text-gray-700 mb-1"
-                            >Position</label
+                            >Address</label
                         >
-                        <input
-                            v-model="form.position"
-                            type="text"
+                        <textarea
+                            v-model="form.address"
+                            rows="3"
+                            placeholder="Optional address details..."
                             class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                            required
-                        />
-                    </div>
-                    <div class="mb-6">
-                        <label
-                            class="block text-sm font-medium text-gray-700 mb-1"
-                            >Department</label
-                        >
-                        <input
-                            v-model="form.department"
-                            type="text"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                            required
-                        />
+                        ></textarea>
                     </div>
                     <div class="flex justify-end gap-2">
                         <button
                             type="button"
-                            @click="showModal = false"
+                            @click="closeModal"
                             class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg text-sm"
                         >
                             Cancel
@@ -197,6 +233,8 @@ const form = reactive({
     name: "",
     position: "",
     department: "",
+    phone: "",
+    address: "",
 });
 
 const fetchMembers = async () => {
@@ -206,6 +244,23 @@ const fetchMembers = async () => {
     } catch (error) {
         console.error("Error fetching members:", error);
     }
+};
+
+// --- HELPER: RESET FORM ---
+const resetForm = () => {
+    form.name = "";
+    form.position = "";
+    form.department = "";
+    form.phone = "";
+    form.address = "";
+    isEditing.value = false;
+    editingId.value = null;
+};
+
+// --- HELPER: CLOSE MODAL ---
+const closeModal = () => {
+    showModal.value = false;
+    resetForm();
 };
 
 const openModal = (member = null) => {
@@ -218,14 +273,10 @@ const openModal = (member = null) => {
         form.name = member.name;
         form.position = member.position;
         form.department = member.department;
+        form.phone = member.phone;
+        form.address = member.address;
     } else {
-        isEditing.value = false;
-        editingId.value = null;
-
-        // Reset form
-        form.name = "";
-        form.position = "";
-        form.department = "";
+        resetForm();
     }
 
     showModal.value = true;
@@ -242,6 +293,7 @@ const saveMember = async () => {
         // Reset & Refresh
         showModal.value = false;
         fetchMembers();
+        resetForm();
     } catch (error) {
         if (error.response && error.response.status === 422) {
             alert(Object.values(error.response.data.errors).flat().join("\n"));

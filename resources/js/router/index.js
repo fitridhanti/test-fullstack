@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import MemberIndex from "../pages/members/MemberIndex.vue";
-import InventoryIndex from "../pages/inventory/InventoryIndex.vue"; // Kita buat file ini sebentar lagi
+import InventoryIndex from "../pages/inventory/InventoryIndex.vue";
 
 const routes = [
     {

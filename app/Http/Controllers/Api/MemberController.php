@@ -41,8 +41,8 @@ class MemberController extends Controller
             'name'       => 'required|string|max:50',
             'position'   => 'required|string|max:50',
             'department' => 'required|string|max:50',
-            'phone'      => 'string|max:50',
-            'address'    => 'text'
+            'phone'      => 'nullable|string|max:50',
+            'address'    => 'nullable|text'
         ]);
 
         try {
